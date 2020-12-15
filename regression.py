@@ -1,4 +1,8 @@
 
+## Please check back with me on this -
+## This is a work in progress. I hope to have it completed sometime in January 2021, but
+## I wanted to get as much out as possible to demo a regression example.
+
 #########################################################################################################
 ## This is the starting point for all of the regression programs contained in this project.
 #########################################################################################################
