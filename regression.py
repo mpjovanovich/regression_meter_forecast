@@ -33,11 +33,16 @@ df_temp = pd.read_csv( 'data/temperature_121997.csv', parse_dates=['start_date']
 df = pd.merge( df, df_temp, on='start_date' )
 
 ## A few debug statement to see how things look...
-## print( df.dtypes )
+print( df.dtypes )
 ## print( df.head() )
 ## print( df.loc[:,['start_date','temperature']].head() )
 ## print( df.loc[:,['start_date','reading']].head() )
 
+start_date = pd.to_datetime('20190401', format='%Y%m%d')
+end_date = pd.to_datetime('20190410', format='%Y%m%d')
+## print( type( start_date ) )
+## print( start_date )
+## print( df.loc[(df['start_date'] >= start_date) & (df['start_date'] < end_date)] )
 
 ########################################################
 ## Do some preliminary data exploration and visualization
@@ -45,13 +50,20 @@ df = pd.merge( df, df_temp, on='start_date' )
 
 ## The beginning of the set is on a holiday
 ## TODO: splice dates based on querying start date column, use iloc to get readings
-plt.scatter( df.loc[1000:1500,'start_date'], df.loc[1000:1500,'reading'] )
-## plt.scatter( df.loc[1000:1500,'temperature'], df.loc[1000:1500,'reading'] )
+
+## Get a date range that illustrates what we want to see for plotting.
+## The expression below stores a boolean series in the variable.
+df_dates = ((df['start_date'] >= start_date) & (df['start_date'] < end_date))
+
+plt.scatter( df.loc[df_dates,'start_date'], df.loc[df_dates,'reading'] )
+## plt.scatter( df.loc[1000:1500,'start_date'], df.loc[1000:1500,'reading'] )
 
 plt.xticks()
 plt.yticks()
-
 plt.show()
+
+##
+## We can see that there's really no usage on weekends. That's why we created a 'is_weekday' variable for the regression model
 
 ########################################################
 ## Create training / cross validate / test sets
